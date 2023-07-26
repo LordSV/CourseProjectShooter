@@ -1,11 +1,12 @@
 using Colyseus;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private EnemyController _enemy;
     private ColyseusRoom<State> _room;
     protected override void Awake()
     {
@@ -29,19 +30,41 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         if (isFirstState == false) return;
 
-        var player = state.players[_room.SessionId];
-        var position = new Vector3(player.x - 200, 0, player.y - 200) / 8;
+        state.players.ForEach((key, player) =>
+        {
+            if (key == _room.SessionId) CreatePlayer(player);
+            else CreateEnemy(key, player);
+        });
+        _room.State.players.OnAdd += CreateEnemy;
+        _room.State.players.OnRemove += RemoveEnemy;
+    }
 
+    private void CreatePlayer(Player player)
+    {
+        var position = new Vector3(player.x, 0, player.y);
         Instantiate(_player, position, Quaternion.identity);
+    }
+    private void CreateEnemy(string key, Player player)
+    {
+        var position = new Vector3(player.x, 0, player.y);
+        var enemy = Instantiate(_enemy, position, Quaternion.identity);
+        player.OnChange += enemy.OnChange;
+    }
+    private void RemoveEnemy(string key, Player value)
+    {
 
-        state.players.ForEach(ForEachEnemy);
     }
 
     private void ForEachEnemy(string key, Player player)
     {
         if (key == _room.SessionId) return;
 
-        var position = new Vector3(player.x - 200, 0, player.y - 200) / 8;
+        var position = new Vector3(player.x, 0, player.y);
         Instantiate(_enemy, position, Quaternion.identity);
+    }
+
+    public void SendMessage(string key, Dictionary<string, object> data)
+    {
+        _room.Send(key, data);
     }
 }

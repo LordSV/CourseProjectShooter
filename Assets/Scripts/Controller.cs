@@ -9,6 +9,20 @@ public class Controller : MonoBehaviour
     {
         float H = Input.GetAxisRaw("Horizontal");
         float V = Input.GetAxisRaw("Vertical");
+
         _player.SetInput(H, V);
+
+        SendMove();
+    }
+
+    private void SendMove()
+    {
+        _player.GetMoveInfo(out Vector3 position);
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            {"x", position.x},
+            {"y", position.y}
+        };  
+        MultiplayerManager.Instance.SendMessage("move", data);
     }
 }

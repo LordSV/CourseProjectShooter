@@ -22,4 +22,8 @@ public class PlayerCharacter : MonoBehaviour
         Vector3 direction = new Vector3(_inputH, 0, _inputV).normalized;
         transform.position += direction * Time.deltaTime * _speed;
     }
+    public void GetMoveInfo(out Vector3 position)
+    {
+        position = transform.position;
+    }
 }
