@@ -21,7 +21,7 @@ public class Controller : MonoBehaviour
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
             {"x", position.x},
-            {"y", position.y}
+            {"y", position.z}
         };  
         MultiplayerManager.Instance.SendMessage("move", data);
     }
