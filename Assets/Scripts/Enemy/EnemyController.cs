@@ -4,24 +4,66 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private EnemyCharacter _character;
+    private List<float> _receivedTimeInterval = new List<float> { 0, 0, 0, 0, 0 };
+    private float _lastReceivedTime = 0f;
+
+    private float AverageInterval
+    {
+        get
+        {
+            int receivedTimeIntervalCount = _receivedTimeInterval.Count;
+            float summ = 0;
+            for(int i = 0; i < receivedTimeIntervalCount; i++)
+            {
+                summ += _receivedTimeInterval[i];
+            }
+            return summ / receivedTimeIntervalCount;
+        }
+    }
+
+    private void SaveReceivedTime()
+    {
+        float interval = Time.time - _lastReceivedTime;
+        _lastReceivedTime = Time.time;
+
+        _receivedTimeInterval.Add(interval);
+        _receivedTimeInterval.RemoveAt(0);
+    }
     internal void OnChange(List<DataChange> changes)
     {
-        Vector3 position = transform.position; 
+        SaveReceivedTime();
+
+        Vector3 position = _character.TargetPosition;
+        Vector3 velocity = Vector3.zero;
+
         foreach (var dataChange in changes) 
         {
             switch (dataChange.Field)
             {
-                case "x":
+                case "pX":
                     position.x = (float)dataChange.Value;
                     break;
-                case "y":
+                case "pY":
+                    position.y = (float)dataChange.Value;
+                    break;
+                case "pZ":
                     position.z = (float)dataChange.Value;
+                    break;
+                case "vX":
+                    velocity.x = (float)dataChange.Value;
+                    break;
+                case "vY":
+                    velocity.y = (float)dataChange.Value;
+                    break;
+                case "vZ":
+                    velocity.z = (float)dataChange.Value;
                     break;
                 default:
                     Debug.LogWarning("Не обрабатывается изменение поля " + dataChange.Field);
                     break;
             }
         }
-        transform.position = position;  
+        _character.SetMovement(position, velocity, AverageInterval);
     }
 }
