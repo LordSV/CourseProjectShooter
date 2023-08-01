@@ -5,12 +5,24 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter _player;
+    [SerializeField] private float _mouseSensetivity = 2f;
     void Update()
     {
-        float H = Input.GetAxisRaw("Horizontal");
-        float V = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
-        _player.SetInput(H, V);
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        bool space = Input.GetKeyDown(KeyCode.Space);
+
+        _player.SetInput(h, v, mouseX * _mouseSensetivity);
+        _player.RotateX(-mouseY * _mouseSensetivity);
+
+        if (space == true)
+        {
+            _player.Jump();
+        }
 
         SendMove();
     }
