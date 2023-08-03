@@ -5,7 +5,14 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter _player;
+    [SerializeField] private PlayerGun _gun;
     [SerializeField] private float _mouseSensetivity = 2f;
+    private MultiplayerManager _multiplayerManager;
+
+    private void Start()
+    {
+        _multiplayerManager = MultiplayerManager.Instance;
+    }
     void Update()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -13,6 +20,8 @@ public class Controller : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
+
+        bool isShoot = Input.GetMouseButton(0);
 
         bool space = Input.GetKeyDown(KeyCode.Space);
 
@@ -23,8 +32,17 @@ public class Controller : MonoBehaviour
         {
             _player.Jump();
         }
+        if(isShoot && _gun.TryShoot(out ShootInfo shootInfo)) SendShoot(ref shootInfo);
 
         SendMove();
+    }
+
+    private void SendShoot(ref ShootInfo shootInfo)
+    {
+        shootInfo.key = _multiplayerManager.GetSessionID();
+        string json = JsonUtility.ToJson(shootInfo);
+
+        _multiplayerManager.SendMessage("shoot", json);
     }
 
     private void SendMove()
@@ -41,6 +59,6 @@ public class Controller : MonoBehaviour
             {"rX", rotateX},
             {"rY", rotateY}
         };  
-        MultiplayerManager.Instance.SendMessage("move", data);
+        _multiplayerManager.SendMessage("move", data);
     }
 }

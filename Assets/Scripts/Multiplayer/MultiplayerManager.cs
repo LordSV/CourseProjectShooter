@@ -7,6 +7,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private EnemyController _enemy;
+    private Dictionary<string, EnemyController> _enemies = new Dictionary<string, EnemyController>();
     private ColyseusRoom<State> _room;
     protected override void Awake()
     {
@@ -28,6 +29,18 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         };
         _room = await Instance.client.JoinOrCreate<State>("state_handler", data);
         _room.OnStateChange += OnChange;
+        _room.OnMessage<string>("Shoot", ApplyShoot);
+    }
+
+    private void ApplyShoot(string jsonShootInfo)
+    {
+        ShootInfo shootInfo = JsonUtility.FromJson<ShootInfo>(jsonShootInfo);
+        if(_enemies.ContainsKey(shootInfo.key) == false)
+        {
+            Debug.LogError("Enemy not found");
+            return;
+        }
+        _enemies[shootInfo.key].Shoot(shootInfo);
     }
 
     private void OnChange(State state, bool isFirstState)
@@ -48,6 +61,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         var position = new Vector3(player.pX, player.pY, player.pZ);
         Instantiate(_player, position, Quaternion.identity);
     }
+
     private void CreateEnemy(string key, Player player)
     {
         var position = new Vector3(player.pX, player.pY, player.pZ);
@@ -55,10 +69,16 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         var enemy = Instantiate(_enemy, position, Quaternion.identity);
         enemy.Init(player);
 
+        _enemies.Add(key, enemy);
     }
     private void RemoveEnemy(string key, Player value)
     {
+        if (_enemies.ContainsKey(key) == false) return;
 
+        var enemy = _enemies[key];
+        enemy.Destroy();
+
+        _enemies.Remove(key);
     }
 
     private void ForEachEnemy(string key, Player player)
@@ -73,4 +93,11 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         _room.Send(key, data);
     }
+
+    public void SendMessage(string key, string data)
+    {
+        _room.Send(key, data);
+    }
+
+    public string GetSessionID() => _room.SessionId;
 }
