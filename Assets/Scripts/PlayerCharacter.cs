@@ -45,8 +45,8 @@ public class PlayerCharacter : Character
         //transform.position += direction * Time.deltaTime * _speed;
         Vector3 velocity = (transform.forward * _inputV + transform.right * _inputH).normalized * speed;
         velocity.y = _rigidbody.velocity.y;
-        base.velocity = velocity;
-        _rigidbody.velocity = base.velocity;
+        base.Velocity = velocity;
+        _rigidbody.velocity = base.Velocity;
     }
     public void RotateX(float value)
     {
