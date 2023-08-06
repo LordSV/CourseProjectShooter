@@ -58,13 +58,15 @@ public class PlayerCharacter : Character
         _rigidbody.angularVelocity = new Vector3(0, _rotateY, 0);
         _rotateY = 0;
     }
-    public void GetMoveInfo(out Vector3 position, out Vector3 velocity, out float rotateX, out float rotateY)
+    public void GetMoveInfo(out Vector3 position, out Vector3 velocity, out float rotateX, out float rotateY, out Vector3 bodyPosition)
     {
         position = transform.position;
         velocity = _rigidbody.velocity;
 
         rotateX = _head.localEulerAngles.x;
         rotateY = transform.eulerAngles.y;
+
+        bodyPosition = UpperBody.localPosition;
     }
 
     public void Jump()
@@ -73,5 +75,17 @@ public class PlayerCharacter : Character
         if(Time.time - _jumpTime < _jumpDelay) return;
         _jumpTime = Time.time;
         _rigidbody.AddForce(0, _jumpForce, 0, ForceMode.VelocityChange);
+    }
+
+    public void Sit(bool sit)
+    {
+        if(sit == true)
+        {
+            UpperBody.localPosition = new Vector3(0, 0.5f, -0.6f);
+        }
+        else
+        {
+            UpperBody.localPosition = new Vector3(0, 0, 0);
+        }
     }
 }

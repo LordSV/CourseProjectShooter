@@ -8,6 +8,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private PlayerGun _gun;
     [SerializeField] private float _mouseSensetivity = 2f;
     private MultiplayerManager _multiplayerManager;
+    private bool _isSit = false;
 
     private void Start()
     {
@@ -22,6 +23,19 @@ public class Controller : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
 
         bool isShoot = Input.GetMouseButton(0);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if(_isSit == false)
+            {
+                _isSit = true;
+                _player.Sit(_isSit);
+            }
+            else if (_isSit == true) 
+            {
+                _isSit = false;
+                _player.Sit(_isSit);
+            }
+        }
 
         bool space = Input.GetKeyDown(KeyCode.Space);
 
@@ -47,7 +61,7 @@ public class Controller : MonoBehaviour
 
     private void SendMove()
     {
-        _player.GetMoveInfo(out Vector3 position, out Vector3 velocity, out float rotateX, out float rotateY);
+        _player.GetMoveInfo(out Vector3 position, out Vector3 velocity, out float rotateX, out float rotateY, out Vector3 bodyPosition);
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
             {"pX", position.x},
@@ -57,7 +71,10 @@ public class Controller : MonoBehaviour
             {"vY", velocity.y},
             {"vZ", velocity.z},
             {"rX", rotateX},
-            {"rY", rotateY}
+            {"rY", rotateY},
+            {"bpX", bodyPosition.x},
+            {"bpY", bodyPosition.y},
+            {"bpZ", bodyPosition.z},
         };  
         _multiplayerManager.SendMessage("move", data);
     }

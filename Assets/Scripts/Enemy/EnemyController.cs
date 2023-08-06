@@ -56,6 +56,7 @@ public class EnemyController : MonoBehaviour
 
         Vector3 position = _character.TargetPosition;
         Vector3 velocity = _character.velocity;
+        Vector3 bodyPosition = _character.UpperBody.localPosition;
 
         foreach (var dataChange in changes) 
         {
@@ -85,11 +86,21 @@ public class EnemyController : MonoBehaviour
                 case "rY":
                     _character.SetRotateY((float)dataChange.Value);
                     break;
+                case "bpX":
+                    bodyPosition.x = (float)dataChange.Value;
+                    break;
+                case "bpY":
+                    bodyPosition.y = (float)dataChange.Value;
+                    break;
+                case "bpZ":
+                    bodyPosition.z = (float)dataChange.Value;
+                    break;
                 default:
                     Debug.LogWarning("Не обрабатывается изменение поля " + dataChange.Field);
                     break;
             }
         }
+        _character.SetBodyPosition(bodyPosition);
         _character.SetMovement(position, velocity, AverageInterval);
     }
 }
