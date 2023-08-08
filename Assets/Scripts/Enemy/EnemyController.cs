@@ -56,7 +56,11 @@ public class EnemyController : MonoBehaviour
         SaveReceivedTime();
 
         Vector3 position = _character.TargetPosition;
-        Vector3 velocity = _character.velocity;
+        Vector3 velocity = _character.Velocity;
+        Vector3 bodyPosition = _character.UpperBody.localPosition;
+        Vector3 angularVelocity = _character.AngularVelocity;
+        Vector3 headRotation = _character.HeadRotation;
+        Vector3 bodyRotation = _character.BodyRotation;
 
         foreach (var dataChange in changes) 
         {
@@ -81,16 +85,28 @@ public class EnemyController : MonoBehaviour
                     velocity.z = (float)dataChange.Value;
                     break;
                 case "rX":
-                    _character.SetRotateX((float)dataChange.Value);
+                    headRotation.x = (float)dataChange.Value;
                     break;
                 case "rY":
-                    _character.SetRotateY((float)dataChange.Value);
+                    bodyRotation.y = (float)dataChange.Value;
+                    break;
+                case "bpX":
+                    bodyPosition.x = (float)dataChange.Value;
+                    break;
+                case "bpY":
+                    bodyPosition.y = (float)dataChange.Value;
+                    break;
+                case "bpZ":
+                    bodyPosition.z = (float)dataChange.Value;
                     break;
                 default:
                     Debug.LogWarning("Не обрабатывается изменение поля " + dataChange.Field);
                     break;
             }
         }
+        _character.SetBodyPosition(bodyPosition);
         _character.SetMovement(position, velocity, AverageInterval);
+        _character.SetBodyRotation(bodyRotation, angularVelocity, AverageInterval);
+        _character.SetHeadRotation(headRotation, angularVelocity, AverageInterval);
     }
 }
