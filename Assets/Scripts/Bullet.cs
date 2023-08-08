@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     private IEnumerator DestroyDelay()
     {
         yield return new WaitForSecondsRealtime(_lifeTime);
-        Destroy();
+        Destroy(gameObject);
     }
 
     private void Destroy()
@@ -32,6 +32,6 @@ public class Bullet : MonoBehaviour
         {
             enemy.ApplyDamage(_damage);
         }
-        Destroy();
+        Destroy(gameObject);
     }
 }
