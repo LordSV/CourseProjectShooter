@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyCharacter : Character
 {
     public Vector3 TargetPosition { get; private set; } = Vector3.zero;
+    [SerializeField] private Health _health;
     [SerializeField] private Transform _head;
     private float _velocityMagnitude = 0;
 
@@ -24,12 +25,23 @@ public class EnemyCharacter : Character
 
     }
     public void SetSpeed(float value) => speed = value;
+    public void SetMaxHP(int value)
+    {
+        maxHealth = value;
+        _health.SetMax(value);
+        _health.SetCurrent(value);
+    }
     public void SetMovement(in Vector3 position, in Vector3 velocity, in float averageInterval)
     {
         TargetPosition = position + (velocity * averageInterval);
         _velocityMagnitude = velocity.magnitude;
 
         this.velocity = velocity;
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        _health.ApplyDamage(damage);
     }
 
     public void SetRotateX(float value)
