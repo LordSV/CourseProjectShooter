@@ -42,6 +42,11 @@ public class EnemyCharacter : Character
         _health.SetCurrent(value);
     }
 
+    public void RestoreHP(int newvalue)
+    {
+        _health.SetCurrent(newvalue);
+    }
+
     public void ApplyDamage(int damage)
     {
         _health.ApplyDamage(damage);
