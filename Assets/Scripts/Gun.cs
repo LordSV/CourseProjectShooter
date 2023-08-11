@@ -5,4 +5,9 @@ public abstract class Gun : MonoBehaviour
 {
     [SerializeField] protected Bullet _bulletPrefab;
     public Action shoot;
+
+    public virtual void ChangeWeapon()
+    {
+
+    }
 }

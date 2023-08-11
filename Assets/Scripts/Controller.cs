@@ -28,6 +28,10 @@ public class Controller : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
 
         bool isShoot = Input.GetMouseButton(0);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _gun.ChangeWeapon();
+        }
         if (Input.GetKeyDown(KeyCode.C))
         {
             if(_isSit == false)
