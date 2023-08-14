@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <maxHealth>k__BackingField: 10
-  <speed>k__BackingField: 2
+  <speed>k__BackingField: 6
   UpperBody: {fileID: 3288735325943337516}
   BodyRotation: {x: 0, y: 0, z: 0}
   HeadRotation: {x: 0, y: 0, z: 0}
