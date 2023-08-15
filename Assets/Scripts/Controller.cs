@@ -13,21 +13,38 @@ public class Controller : MonoBehaviour
     private MultiplayerManager _multiplayerManager;
     private bool _isSit = false;
     private bool _hold = false;
+    private bool _hideCursor;
 
     private void Start()
     {
         _multiplayerManager = MultiplayerManager.Instance;
+        _hideCursor = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _hideCursor = !_hideCursor;
+            UnityEngine.Cursor.lockState = _hideCursor ? CursorLockMode.Locked : CursorLockMode.None;
+        }
+
         if (_hold) return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = 0;
+        float mouseY = 0;
+        bool isShoot = false;
 
-        bool isShoot = Input.GetMouseButton(0);
+        if (_hideCursor == true)
+        {
+             mouseX = Input.GetAxis("Mouse X");
+             mouseY = Input.GetAxis("Mouse Y");
+             isShoot = Input.GetMouseButton(0);
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             _gun.ChangeWeapon();
