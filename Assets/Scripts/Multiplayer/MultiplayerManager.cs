@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {
+    [field: SerializeField] public Skins _skins;
     [field: SerializeField] public LossCounter LossCounter { get; private set;}
     [field: SerializeField] public SpawnPoints _spawnPoints { get; private set; }
     [SerializeField] private PlayerCharacter _player;
@@ -27,6 +28,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         _spawnPoints.GetPoint(Random.Range(0, _spawnPoints.Length), out Vector3 spawnPosition, out Vector3 spawnRotation);
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
+            {"skins", _skins.Length },
             {"points", _spawnPoints.Length },
             {"speed", _player.speed},
             {"hp", _player.maxHealth},
@@ -72,6 +74,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         player.OnChange += playerCharacter.OnChange;
 
         _room.OnMessage<int>("Restart", playerCharacter.GetComponent<Controller>().Restart);
+
+        playerCharacter.GetComponent<SetSkin>().Set(_skins.GetMaterial(player.skin));
     }
 
     private void CreateEnemy(string key, Player player)
@@ -80,7 +84,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
         var enemy = Instantiate(_enemy, position, Quaternion.identity);
         enemy.Init(key, player);
-
+        enemy.GetComponent<SetSkin>().Set(_skins.GetMaterial(player.skin));
         _enemies.Add(key, enemy);
     }
     private void RemoveEnemy(string key, Player value)

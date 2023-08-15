@@ -743,6 +743,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986314340}
   - component: {fileID: 986314339}
+  - component: {fileID: 986314341}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -763,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colyseusSettings: {fileID: 11400000, guid: 62ad441ac1a176841b100b41c5e9c297, type: 2}
+  _skins: {fileID: 986314341}
   <LossCounter>k__BackingField: {fileID: 1945960306}
   <_spawnPoints>k__BackingField: {fileID: 1296668452}
   _player: {fileID: 4551867936821810152, guid: fd48b0986ed196549abf457d404d631a, type: 3}
@@ -782,6 +784,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &986314341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986314338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5606a83a8158d9143a7a32ce6d8780ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materials:
+  - {fileID: 2100000, guid: 92bbfa5f9bee13e4f933256424f8a409, type: 2}
+  - {fileID: 2100000, guid: 71ba055648b7f0a47bc74a9761221f33, type: 2}
+  - {fileID: 2100000, guid: e5864acdea44f8e41ae3e9e676377800, type: 2}
+  - {fileID: 2100000, guid: be40ae362a577fe4db8de06f59560c70, type: 2}
+  - {fileID: 2100000, guid: d72154d32291c5f45afa154cc3a7173f, type: 2}
 --- !u!114 &1296668452 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1296668452, guid: c517956007e2abd4e9a7f999f51e2149, type: 3}
