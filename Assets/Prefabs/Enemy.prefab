@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6484702632174399674}
   - component: {fileID: 4768356182132646293}
   - component: {fileID: 8937090380402318097}
+  - component: {fileID: 3379052257390694710}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -86,9 +87,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.4018904
-  m_Height: 2.4455128
+  m_Height: 1.416652
   m_Direction: 1
-  m_Center: {x: 0.00007534027, y: 1.261883, z: 0}
+  m_Center: {x: 0.00007534027, y: 0.5815072, z: 0}
 --- !u!114 &2634020831458072021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +184,20 @@ MonoBehaviour:
   - {fileID: 1024571874100824749}
   - {fileID: 3823194676418378192}
   - {fileID: 805665118266363532}
+--- !u!114 &3379052257390694710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4551867936821810154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 952b0e392d82355429b723ca369fed99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _character: {fileID: 7296784716517319966}
+  _bodyPart: 1
 --- !u!1001 &5688566627143150871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,6 +272,38 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5150524850654449771, guid: 5b9e5150db7b2204d98b5f69a683d1e6, type: 3}
   m_PrefabInstance: {fileID: 5688566627143150871}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &780503926074820334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4910384957521570809, guid: 5b9e5150db7b2204d98b5f69a683d1e6, type: 3}
+  m_PrefabInstance: {fileID: 5688566627143150871}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &5468917394334069326
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780503926074820334}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.38131714
+  m_Center: {x: 0, y: -9.370552e-16, z: 0.43406048}
+--- !u!114 &802179251786125620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780503926074820334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 952b0e392d82355429b723ca369fed99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _character: {fileID: 7296784716517319966}
+  _bodyPart: 0
 --- !u!23 &805665118266363532 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5034906861454943131, guid: 5b9e5150db7b2204d98b5f69a683d1e6, type: 3}

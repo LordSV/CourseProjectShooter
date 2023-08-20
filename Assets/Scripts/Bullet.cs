@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.TryGetComponent(out EnemyCharacter enemy))
+        if(collision.collider.TryGetComponent(out Damager enemy))
         {
             enemy.ApplyDamage(_damage);
         }
